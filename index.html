@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAI Fitness Assessment Platform - AI Trainer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landingPage" class="page active">
+        <header class="landing-header">
+            <div class="container">
+                <div class="header-content">
+                    <img src="https://via.placeholder.com/150x60/0066cc/ffffff?text=SAI+LOGO" alt="SAI Logo" class="sai-logo">
+                    <h1>Sports Authority of India</h1>
+                    <p class="tagline">AI-Powered Fitness Assessment Platform</p>
+                </div>
+            </div>
+        </header>
+        
+        <main class="landing-main">
+            <div class="container">
+                <div class="hero-section">
+                    <h2>Welcome to SAI AI Trainer Portal</h2>
+                    <p>Assess, Track, and Excel in Your Fitness Journey with AI Guidance</p>
+                    <div class="login-options">
+                        <button class="btn btn--primary btn--lg" onclick="showLogin('admin')">
+                            <i class="fas fa-user-shield"></i>
+                            Admin Login
+                        </button>
+                        <button class="btn btn--secondary btn--lg" onclick="showLogin('user')">
+                            <i class="fas fa-user"></i>
+                            User Login
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI Trainer Dashboard</h3>
+                        <p>Personalized coaching with intelligent performance tracking</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <h3>Smart Analytics</h3>
+                        <p>Advanced performance metrics and progress insights</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Interactive Training</h3>
+                        <p>Real-time feedback and AI-powered coaching tips</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-backdrop" onclick="hideLogin()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="loginTitle">User Login</h3>
+                <button class="modal-close" onclick="hideLogin()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Username/Email</label>
+                        <input type="text" class="form-control" id="loginUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+                    </div>
+                </form>
+                
+                <div id="userLoginExtras" class="login-extras hidden">
+                    <div class="divider">
+                        <span>or</span>
+                    </div>
+                    <div class="social-login">
+                        <button class="btn btn--outline btn--full-width" onclick="handleSocialLogin('google')">
+                            <i class="fab fa-google"></i>
+                            Continue with Google
+                        </button>
+                        <button class="btn btn--outline btn--full-width" onclick="handleSocialLogin('facebook')">
+                            <i class="fab fa-facebook-f"></i>
+                            Continue with Facebook
+                        </button>
+                    </div>
+                    <p class="signup-link">
+                        Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal hidden">
+        <div class="modal-backdrop" onclick="hideSignup()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Account</h3>
+                <button class="modal-close" onclick="hideSignup()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="signupForm" onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="signupName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="signupEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signupPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="signupConfirmPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary btn--full-width">Create Account</button>
+                    </div>
+                </form>
+                <p class="login-link">
+                    Already have an account? <a href="#" onclick="showLogin('user')">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Trainer User Dashboard -->
+    <div id="userDashboard" class="page hidden">
+        <div class="ai-dashboard-layout">
+            <!-- Left Sidebar -->
+            <aside class="ai-sidebar">
+                <div class="sidebar-header">
+                    <img src="https://via.placeholder.com/120x50/0066cc/ffffff?text=SAI+AI" alt="SAI AI Logo" class="sidebar-logo">
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <h4 class="nav-section-title">Training Hub</h4>
+                        <div class="nav-items">
+                            <button class="nav-item active" onclick="showAISection('dashboard')" data-section="dashboard">
+                                <span class="nav-icon">🏠</span>
+                                <span class="nav-label">Dashboard</span>
+                            </button>
+                            <button class="nav-item" onclick="showAISection('live-workout')" data-section="live-workout">
+                                <span class="nav-icon">🏋️‍♀️</span>
+                                <span class="nav-label">Live Workout</span>
+                            </button>
+                            <button class="nav-item" onclick="showAISection('upload-session')" data-section="upload-session">
+                                <span class="nav-icon">📤</span>
+                                <span class="nav-label">Upload Session</span>
+                            </button>
+                            <button class="nav-item" onclick="showAISection('progress')" data-section="progress">
+                                <span class="nav-icon">📊</span>
+                                <span class="nav-label">Progress</span>
+                            </button>
+                            <button class="nav-item" onclick="showAISection('training-library')" data-section="training-library">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-label">Training Library</span>
+                            </button>
+                            <button class="nav-item" onclick="showAISection('ai-coach-chat')" data-section="ai-coach-chat">
+                                <span class="nav-icon">💬</span>
+                                <span class="nav-label">AI Coach Chat</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-section">
+                        <h4 class="nav-section-title">Performance</h4>
+                        <div class="nav-items">
+                            <div class="daily-goal">
+                                <div class="goal-header">
+                                    <span class="goal-icon">🎯</span>
+                                    <span class="goal-label">Daily Goal</span>
+                                </div>
+                                <div class="goal-progress">
+                                    <div class="goal-text" id="dailyGoalText">Complete 1 training session</div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="dailyGoalProgress" style="width: 60%"></div>
+                                    </div>
+                                    <div class="progress-text">60% Complete</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <div class="user-profile">
+                        <img src="https://via.placeholder.com/40x40/4285f4/ffffff?text=RK" alt="User Avatar" class="user-avatar">
+                        <div class="user-info">
+                            <div class="user-name" id="sidebarUserName">Rajesh Kumar</div>
+                            <div class="user-status">Athletic Development</div>
+                        </div>
+                    </div>
+                    <button class="btn btn--outline btn--sm" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="ai-main-content">
+                <!-- Dashboard Section -->
+                <div id="dashboardSection" class="ai-section active">
+                    <!-- Welcome Section -->
+                    <div class="welcome-section">
+                        <div class="welcome-content">
+                            <h1 class="welcome-title" id="welcomeTitle">Welcome back, Rajesh! 💪</h1>
+                            <p class="welcome-subtitle" id="welcomeSubtitle">Ready to push your limits and achieve new personal bests?</p>
+                            <div class="welcome-actions">
+                                <button class="btn btn--primary btn--lg record-session-btn" onclick="startRecordSession()">
+                                    <i class="fas fa-play-circle"></i>
+                                    Record Session
+                                </button>
+                                <button class="btn btn--secondary btn--lg" onclick="showAISection('progress')">
+                                    <i class="fas fa-chart-line"></i>
+                                    View Progress
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Training Tip -->
+                    <div class="daily-tip-section">
+                        <div class="daily-tip-card">
+                            <div class="tip-header">
+                                <span class="tip-icon">⚡</span>
+                                <h3>Daily Training Tip</h3>
+                            </div>
+                            <div class="tip-content">
+                                <h4 id="tipTitle">Master Your Form</h4>
+                                <p id="tipContent">Focus on perfecting your technique today. Slow down each movement and ensure proper alignment. Quality over quantity builds strength and prevents injury.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Metrics Cards -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <h3>Total Sessions</h3>
+                                <span class="metric-trend up">+5 this week</span>
+                            </div>
+                            <div class="metric-value" id="totalSessions">15</div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <h3>Avg Performance</h3>
+                                <span class="metric-rating" id="performanceRating">Very Good</span>
+                            </div>
+                            <div class="metric-value" id="avgPerformance">78%</div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <h3>Athletic Level</h3>
+                                <span class="metric-category" id="athleticCategory">Athletic Development</span>
+                            </div>
+                            <div class="metric-value" id="athleticLevel">Intermediate</div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Training Sessions -->
+                    <div class="recent-sessions-section">
+                        <div class="section-header">
+                            <h3>Recent Training Sessions</h3>
+                            <button class="btn btn--outline btn--sm" onclick="showAISection('progress')">View All</button>
+                        </div>
+                        <div class="sessions-list" id="recentSessionsList">
+                            <!-- Sessions will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Workout Section -->
+                <div id="live-workoutSection" class="ai-section hidden">
+                    <div class="section-header">
+                        <h2>Live Workout</h2>
+                        <p>Start a real-time fitness assessment with AI guidance</p>
+                    </div>
+                    <div id="exerciseGrid" class="exercise-grid">
+                        <!-- Exercise cards will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Upload Session Section -->
+                <div id="upload-sessionSection" class="ai-section hidden">
+                    <div class="section-header">
+                        <h2>Upload Session</h2>
+                        <p>Upload and analyze your workout videos</p>
+                    </div>
+                    <div class="upload-area">
+                        <div class="upload-zone">
+                            <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                            <h3>Drag & drop your workout video</h3>
+                            <p>or click to browse files</p>
+                            <button class="btn btn--primary">Choose File</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Section -->
+                <div id="progressSection" class="ai-section hidden">
+                    <div class="section-header">
+                        <h2>Progress Analytics</h2>
+                        <p>Track your fitness journey and achievements</p>
+                    </div>
+                    <div class="progress-charts">
+                        <div class="chart-card">
+                            <h3>Performance Trend</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="progressChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="achievements-card">
+                            <h3>Your Badges</h3>
+                            <div id="progressBadges" class="badges-grid">
+                                <!-- Badges will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Library Section -->
+                <div id="training-librarySection" class="ai-section hidden">
+                    <div class="section-header">
+                        <h2>Training Library</h2>
+                        <p>Explore workout routines and exercise tutorials</p>
+                    </div>
+                    <div class="library-content">
+                        <div class="library-categories">
+                            <button class="category-btn active">All Exercises</button>
+                            <button class="category-btn">Strength</button>
+                            <button class="category-btn">Cardio</button>
+                            <button class="category-btn">Flexibility</button>
+                            <button class="category-btn">Agility</button>
+                        </div>
+                        <div class="library-grid" id="libraryGrid">
+                            <!-- Library items will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Coach Chat Section -->
+                <div id="ai-coach-chatSection" class="ai-section hidden">
+                    <div class="section-header">
+                        <h2>AI Coach Chat</h2>
+                        <p>Get personalized coaching advice and tips</p>
+                    </div>
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="chat-message ai">
+                                <div class="message-avatar">🤖</div>
+                                <div class="message-content">
+                                    <div class="message-text">Hello! I'm your AI fitness coach. How can I help you improve your performance today?</div>
+                                    <div class="message-time">Just now</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="Ask me anything about fitness..." class="form-control" id="chatInput">
+                            <button class="btn btn--primary" onclick="sendChatMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard (unchanged) -->
+    <div id="adminDashboard" class="page hidden">
+        <header class="dashboard-header">
+            <div class="container">
+                <div class="header-nav">
+                    <img src="https://via.placeholder.com/150x60/0066cc/ffffff?text=SAI+LOGO" alt="SAI Logo" class="logo-small">
+                    <nav class="main-nav">
+                        <button class="nav-btn active" onclick="showAdminSection('overview')">Overview</button>
+                        <button class="nav-btn" onclick="showAdminSection('users')">User Management</button>
+                        <button class="nav-btn" onclick="showAdminSection('analytics')">Analytics</button>
+                        <button class="nav-btn" onclick="showAdminSection('reports')">Reports</button>
+                    </nav>
+                    <div class="user-menu">
+                        <span>Admin Panel</span>
+                        <button class="btn btn--outline btn--sm" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="overviewSection" class="dashboard-section active">
+            <div class="container">
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <div class="stat-number">1,247</div>
+                            <div class="stat-title">Total Users</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <div class="stat-number">8,542</div>
+                            <div class="stat-title">Assessments</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-info">
+                            <div class="stat-number">342</div>
+                            <div class="stat-title">Active Athletes</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <div class="stat-number">95.2%</div>
+                            <div class="stat-title">Accuracy Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="usersSection" class="dashboard-section hidden">
+            <div class="container">
+                <h3>User Management</h3>
+                <div id="usersTable" class="users-table">
+                    <!-- Users table will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <div id="analyticsSection" class="dashboard-section hidden">
+            <div class="container">
+                <h3>Analytics Dashboard</h3>
+            </div>
+        </div>
+
+        <div id="reportsSection" class="dashboard-section hidden">
+            <div class="container">
+                <h3>Reports & Export</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exercise Assessment Modal -->
+    <div id="exerciseModal" class="modal hidden">
+        <div class="modal-backdrop" onclick="hideExerciseModal()"></div>
+        <div class="modal-content exercise-modal">
+            <div class="modal-header">
+                <h3 id="exerciseTitle">Exercise Assessment</h3>
+                <button class="modal-close" onclick="hideExerciseModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="exerciseContent" class="exercise-content">
+                    <div class="exercise-info">
+                        <div class="exercise-icon" id="exerciseIcon">🏃‍♀️</div>
+                        <div class="exercise-details">
+                            <h4 id="exerciseName">Exercise Name</h4>
+                            <p id="exerciseCategory">Category</p>
+                            <p id="exerciseDuration">Duration</p>
+                        </div>
+                    </div>
+                    
+                    <div class="camera-section">
+                        <div class="camera-frame">
+                            <div class="camera-placeholder">
+                                <i class="fas fa-video fa-3x"></i>
+                                <p>Camera Feed</p>
+                                <p class="camera-hint">Position yourself in the camera frame</p>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-controls">
+                            <button class="btn btn--primary btn--lg" id="startExerciseBtn" onclick="startExercise()">
+                                <i class="fas fa-play"></i> Start Assessment
+                            </button>
+                            <button class="btn btn--secondary btn--lg hidden" id="stopExerciseBtn" onclick="stopExercise()">
+                                <i class="fas fa-stop"></i> Stop
+                            </button>
+                        </div>
+                        
+                        <div class="exercise-feedback hidden" id="exerciseFeedback">
+                            <div class="feedback-item">
+                                <span>Reps Detected:</span>
+                                <span id="repsCount">0</span>
+                            </div>
+                            <div class="feedback-item">
+                                <span>Form Score:</span>
+                                <span id="formScore">-</span>
+                            </div>
+                            <div class="feedback-item">
+                                <span>Time Remaining:</span>
+                                <span id="timeRemaining">60s</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner hidden">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast hidden">
+        <span id="toastMessage"></span>
+        <button onclick="hideToast()" class="toast-close">×</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
